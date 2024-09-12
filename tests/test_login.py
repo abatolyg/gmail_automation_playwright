@@ -33,14 +33,10 @@ def test_login(page, login_object, login_result_object_expected):
     # Navigate to login page
     login_page.navigate(url)
 
-    # click_sign_in 
-    #login_page.click_sign_in()
-
     # Perform login
     login_result_object = login_page.login(login_object)   
            
     # Assert conditions
-    assert login_result_object.base_url == login_result_object_expected.base_url, f"Base URL is not correct: {login_result_object.base_url}"
-    assert login_result_object.service_param == login_result_object_expected.service_param, f"Service parameter is not correct: {login_result_object.service_param}"
+    assert login_result_object.is_equal(login_result_object_expected), "login_result_object should be equal to login_result_object_expected"
 
     print("Assertions passed.")

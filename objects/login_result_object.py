@@ -13,3 +13,9 @@ class LoginResultObject:
     @classmethod
     def from_json(cls, data: dict):
         return cls(base_url=data['base_url'], service_param=data['service_param'])
+    
+
+    def is_equal(self, other):
+        if not isinstance(other, LoginResultObject):
+            return False
+        return self.base_url == other.base_url and self.service_param == other.service_param
