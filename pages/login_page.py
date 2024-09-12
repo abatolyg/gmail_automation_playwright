@@ -7,10 +7,11 @@ class LoginPage(BasePage):
     def navigate(self, url: str):
         self.page.goto(url)
 
-    def login(self, username: str, password: str):
-        self.page.fill('input[type="email"]', username)
+    def login(self, test_data):
+
+        self.page.fill('input[type="email"]',test_data.username)
         self.page.click('button:has-text("Next")')
-        self.page.fill('input[type="password"]', password)
+        self.page.fill('input[type="password"]', test_data.password)
         self.page.click('button:has-text("Next")')
 
         return self.BuildLoginResultObject(self.page.url)
