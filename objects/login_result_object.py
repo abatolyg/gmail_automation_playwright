@@ -9,3 +9,7 @@ class LoginResultObject:
             'base_url': self.base_url,
             'service_param': self.service_param
         }
+    
+    @classmethod
+    def from_json(cls, data: dict):
+        return cls(base_url=data['base_url'], service_param=data['service_param'])

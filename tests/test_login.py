@@ -14,9 +14,16 @@ def test_data():
     # Read test data from JSON file
     with open('data/test_data.json') as f:
         data = json.load(f)
-    return LoginObject.from_json(data)   
+    return LoginObject.from_json(data) 
 
-def test_login(page, test_data):
+@pytest.fixture(scope="module")
+def test_result_data():
+    # Read test data from JSON file
+    with open('data/test_result_expected_data.json') as f:
+        data = json.load(f)
+    return LoginResultObject.from_json(data)   
+
+def test_login(page, test_data, test_result_data):
     # Read URL from .env
     url = os.getenv("GMAIL_URL")
 
@@ -34,10 +41,10 @@ def test_login(page, test_data):
     #login_page.click_sign_in()
 
     # Perform login
-    loginResultObject = login_page.login(test_data.username, test_data.password)
-       
+    loginResultObject = login_page.login(test_data.username, test_data.password)   
+           
     # Assert conditions
-    assert loginResultObject.base_url == 'https://accounts.google.com/v3/signin/challenge/pwd', f"Base URL is not correct: {loginResultObject.base_url}"
-    assert loginResultObject.service_param == 'mail', f"Service parameter is not correct: {loginResultObject.service_param}"
+    assert loginResultObject.base_url == test_result_data.base_url, f"Base URL is not correct: {loginResultObject.base_url}"
+    assert loginResultObject.service_param == test_result_data.service_param, f"Service parameter is not correct: {loginResultObject.service_param}"
 
     print("Assertions passed.")
