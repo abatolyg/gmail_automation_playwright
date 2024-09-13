@@ -1,21 +1,21 @@
 # models/login_result_object.py
 class LoginResultObject:
-    def __init__(self, base_url: str, service_param: str):
-        self.base_url = base_url
+    def __init__(self, url: str, service_param: str):
+        self.url = url
         self.service_param = service_param
 
     def to_json(self):
         return {
-            'base_url': self.base_url,
+            'url': self.url,
             'service_param': self.service_param
         }
     
     @classmethod
     def from_json(cls, data: dict):
-        return cls(base_url=data['base_url'], service_param=data['service_param'])
+        return cls(url=data['url'], service_param=data['service_param'])
     
 
     def is_equal(self, other):
         if not isinstance(other, LoginResultObject):
             return False
-        return self.base_url == other.base_url and self.service_param == other.service_param
+        return self.url == other.url and self.service_param == other.service_param

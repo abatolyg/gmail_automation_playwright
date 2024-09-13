@@ -1,6 +1,13 @@
+import logging
 import pytest
 from playwright.sync_api import sync_playwright
 import os
+
+TIMEOUT_MS = 10000  # Timeout in milliseconds
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="session", params=["chromium", "firefox"])
 def context(request):
@@ -20,7 +27,7 @@ def context(request):
             user_agent = None
         elif browser_type == "firefox":
             browser = p.firefox
-            executable_path = None  # Use default Firefox executable
+            executable_path = "C:\\Users\\Admin\\AppData\\Local\\ms-playwright\\firefox-1463\\firefox\\firefox.exe"  # Use default Firefox executable
             args = [
                 "--disable-blink-features=AutomationControlled",
                 "--disable-infobars",
@@ -37,22 +44,7 @@ def context(request):
             viewport={"width": 1280, "height": 800}
         )
 
-        # Additional steps to make the browser less detectable
-        context.add_init_script("""
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-            window.navigator.chrome = {
-                runtime: {},
-                // Add more properties if needed
-            };
-            Object.defineProperty(navigator, 'languages', {
-                get: () => ['en-US', 'en']
-            });
-            Object.defineProperty(navigator, 'plugins', {
-                get: () => [1, 2, 3, 4, 5]
-            });
-        """)
+        context.set_default_timeout(TIMEOUT_MS)  # Set default timeout in milliseconds
 
         yield context
         context.close()

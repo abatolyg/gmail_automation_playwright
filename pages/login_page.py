@@ -2,40 +2,65 @@
 from urllib.parse import parse_qs, urlparse
 from objects.login_result_object import LoginResultObject
 from pages.base_page import BasePage
+import logging
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+from typing import Optional
+
+# Define the selector as a constant
+LOGIN_INPUT_EMAIL = 'input[type="email"]'
+LOGIN_INPUT_PASWORD = 'input[type="password"]'
+BUTTON_NEXT = 'button:has-text("Next")'
+SELECTOR_SIGN_IN = "role=link[name='Sign in']"
 
 class LoginPage(BasePage):
     def navigate(self, url: str):
         self.page.goto(url)
 
     def login(self, test_data):
+        
+        logger = logging.getLogger(__name__)
 
-        self.page.fill('input[type="email"]',test_data.username)
-        self.page.click('button:has-text("Next")')
-        self.page.fill('input[type="password"]', test_data.password)
-        self.page.click('button:has-text("Next")')
+        try:
+            # Fill in the email
+            self.page.wait_for_selector(LOGIN_INPUT_EMAIL, state='visible')
+            self.page.fill(LOGIN_INPUT_EMAIL, test_data.username)
+            logger.info("Filled in email")
 
-        return self.BuildLoginResultObject(self.page.url)
+            # Click the Next button
+            self.page.click(BUTTON_NEXT)
+            logger.info("Clicked Next button after email")
+
+            # Wait for the password field to be visible
+            self.page.wait_for_selector(LOGIN_INPUT_PASWORD, state='visible')
+            self.page.fill(LOGIN_INPUT_PASWORD, test_data.password)
+            logger.info("Filled in password")
+
+            # Click the Next button
+            self.page.click(BUTTON_NEXT)
+            logger.info("Clicked Next button after password")
+
+        except PlaywrightTimeoutError as e:
+            logger.error(f"Timeout error during login: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"An error occurred during login: {e}")
+            raise
+
+        return True
 
     def click_sign_in(self):
-        self.page.locator("role=link[name='Sign in']").click()
+        
+        logger = logging.getLogger(__name__)
 
-    def BuildLoginResultObject(self,url):
+        try:
+            # Wait for the sign-in link to be visible and interactable
+            self.page.wait_for_selector(SELECTOR_SIGN_IN, state='visible')
+            self.page.locator(SELECTOR_SIGN_IN).click()
+            logger.info("Clicked on the 'Sign in' link")
 
-        # Parse the URL
-        parsed_url = urlparse(url)
-
-        # Extract the base URL
-        base_url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
-
-        # Extract query parameters
-        query_params = parse_qs(parsed_url.query)
-
-        # Retrieve specific parameters
-        service_param = query_params.get('service', [None])[0]
-
-        # Print the results
-        print(f"Base URL: {base_url}")
-        print(f"Service Parameter: {service_param}")
-
-        # Create LoginResultObject
-        return  LoginResultObject(base_url=base_url, service_param=service_param)       
+        except PlaywrightTimeoutError as e:
+            logger.error(f"Timeout error while trying to click 'Sign in' link: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"An error occurred while trying to click 'Sign in' link: {e}")
+            raise 

@@ -1,6 +1,6 @@
 {
-    "base_url": "https://accounts.google.com/v3/signin/challenge/pwd",
-    "service_param": "mail"
+    "url":"https://mail.google.com/mail/u/0/#inbox",
+    "service_param": ""
 }
 
     
