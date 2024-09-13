@@ -40,3 +40,8 @@ def test_login(page, login_object, login_result_object_expected):
     assert login_result_object.is_equal(login_result_object_expected), "login_result_object should be equal to login_result_object_expected"
 
     print("Assertions passed.")
+
+
+
+
+    
