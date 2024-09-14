@@ -1,6 +1,8 @@
-It is mini project.
+It is mini project with the playwright, pytest and python
+
 Requirements
-1. Login to Gmail with the playwright, pytest and python
+1. Login to Gmail 
 2. Check login completed successfully (by url for now)
 
-Status - Betta. Tested for Chrome for now and the dirty version
+See log file with successfull test 
+gmail_automation_playwright.log
