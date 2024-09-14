@@ -8,6 +8,10 @@ Requirements
 See log file with successfull test 
 gmail_automation_playwright.log
 
+See video demo:
+https://github.com/abatolyg/gmail_automation_playwright/blob/main/video1304672638.mp4
+
+
 Details of implementation:
 
 Test Name: test_gmail_login
