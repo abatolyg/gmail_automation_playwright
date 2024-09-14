@@ -3,7 +3,7 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-
+*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -129,5 +129,9 @@ dmypy.json
 # Custom exclusions
 secret.key
 app.log
-
-*.pyc
+objects/__pycache__/login_object.cpython-312.pyc
+objects/__pycache__/login_object.cpython-312.pyc
+objects/__pycache__/login_object.cpython-312.pyc
+objects/__pycache__/login_object.cpython-312.pyc
+pages/__pycache__/base_page.cpython-312.pyc
+pages/__pycache__/login_page.cpython-312.pyc

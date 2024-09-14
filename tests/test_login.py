@@ -44,10 +44,11 @@ def test_login(page, login_object: LoginObject, login_result_object_expected: Lo
     login_page.navigate()
 
     # Perform login
+    logger.info("Perform login")
     login_page.login(login_object)
-    logger.info("Performed login")
-    
+        
     # Retrieve data from Inbox page. 
+    logger.info("Retrieve data from Inbox page. check_inbox_main_availble")
     inbox_page = InboxPage(page)
     login_result_object = inbox_page.check_inbox_main_availble()    
 
