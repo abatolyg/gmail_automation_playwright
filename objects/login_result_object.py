@@ -20,9 +20,9 @@ class LoginResultObject:
             'is_compose_button_visible': self.is_compose_button_visible
         }
     
-    @classmethod
-    def from_json(cls, data: dict):
-        return cls(url=data['url'], is_inbox_visible=data['is_inbox_visible'], is_compose_button_visible=data['is_compose_button_visible'])
+    @staticmethod
+    def from_json(data: dict):
+        return LoginResultObject(url=data['url'], is_inbox_visible=data['is_inbox_visible'], is_compose_button_visible=data['is_compose_button_visible'])
     
 
 

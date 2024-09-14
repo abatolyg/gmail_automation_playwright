@@ -8,9 +8,9 @@ class LoginObject:
         self.username = username
         self.password = password_decrypted
 
-    @classmethod
-    def from_json(self, data: dict):
-        return self(username=data['username'], password_decrypted=self.get_password_decrypted(data['password']))
+    @staticmethod
+    def from_json(data: dict):
+        return LoginObject(username=data['username'], password_decrypted=(data['password']))
     
     @staticmethod
     def get_password_decrypted(password_encripted):

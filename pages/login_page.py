@@ -6,7 +6,8 @@ from pages.base_page import BasePage
 import logging
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from typing import Optional
-from utils.logger_config import logger  # Import the global logger
+from utils.logger_config import logger
+from utils.pwd_manager import PasswordManager  # Import the global logger
 
 
 # Define the selector as a constant
@@ -43,7 +44,7 @@ class LoginPage(BasePage):
             # Wait for the password field to be visible
             logger.info("Fill in password")
             self.page.wait_for_selector(LOGIN_INPUT_PASWORD, state='visible')
-            self.page.fill(LOGIN_INPUT_PASWORD, test_data.password)
+            self.page.fill(LOGIN_INPUT_PASWORD, PasswordManager().decrypt_password(test_data.password))
 
             # Click the Next button
             logger.info("Click Next button after password")            
