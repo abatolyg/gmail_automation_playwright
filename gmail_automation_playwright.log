@@ -1,0 +1,13 @@
+2024-09-14 13:04:35,614 - utils.logger_config - INFO - Navigate to URL: https://mail.google.com/mail/u/0/#inbox
+2024-09-14 13:04:36,522 - utils.logger_config - INFO - Perform login
+2024-09-14 13:04:36,522 - utils.logger_config - INFO - Fill in email
+2024-09-14 13:04:36,576 - utils.logger_config - INFO - Click Next button after email
+2024-09-14 13:04:36,713 - utils.logger_config - INFO - Fill in password
+2024-09-14 13:04:40,709 - utils.logger_config - INFO - Click Next button after password
+2024-09-14 13:04:40,786 - utils.logger_config - INFO - Retrieve data from Inbox page. check_inbox_main_availble
+2024-09-14 13:04:40,788 - utils.logger_config - INFO - Check for the presence of an element that indicates a successful login (e.g., the inbox).
+2024-09-14 13:04:44,101 - utils.logger_config - INFO - Inbox is visible
+2024-09-14 13:04:44,101 - utils.logger_config - INFO - Extra Check - Check for the compose button.
+2024-09-14 13:04:44,128 - utils.logger_config - INFO - Compose button is visible
+2024-09-14 13:04:44,128 - utils.logger_config - INFO - Login redirected to another URL to compare to expected - https://mail.google.com/mail/u/0/#inbox.
+2024-09-14 13:04:44,128 - utils.logger_config - INFO - Assertions passed
