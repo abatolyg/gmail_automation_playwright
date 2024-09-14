@@ -1,6 +1,7 @@
 {
     "url":"https://mail.google.com/mail/u/0/#inbox",
-    "service_param": ""
+    "is_inbox_visible": true,
+    "is_compose_button_visible":true
 }
 
     

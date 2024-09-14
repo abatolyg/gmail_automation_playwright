@@ -7,12 +7,9 @@ from pages.login_page import LoginPage
 import pytest
 from objects.login_object import LoginObject
 from objects.login_result_object import LoginResultObject
+from utils.logger_config import logger  # Import the global logger
 
 load_dotenv()
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 def load_json_data(file_path: str):
     """Helper function to load JSON data from a file."""
@@ -40,23 +37,17 @@ def login_result_object_expected() -> LoginResultObject:
 
 def test_login(page, login_object: LoginObject, login_result_object_expected: LoginResultObject):
     """Test the login functionality."""
-    # Read URL from .env
-    url = os.getenv("GMAIL_URL")
-    if not url:
-        logger.error("GMAIL_URL not set in .env file")
-        raise ValueError("GMAIL_URL not set in .env file")
-
     # Create LoginPage object
     login_page = LoginPage(page)
 
     # Navigate to login page
-    login_page.navigate(url)
-    logger.info(f"Navigated to {url}")
+    login_page.navigate()
 
     # Perform login
     login_page.login(login_object)
     logger.info("Performed login")
     
+    # Retrieve data from Inbox page. 
     inbox_page = InboxPage(page)
     login_result_object = inbox_page.check_inbox_main_availble()    
 

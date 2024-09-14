@@ -1,21 +1,31 @@
-# models/login_result_object.py
 class LoginResultObject:
-    def __init__(self, url: str, service_param: str):
+    def __init__(self, url: str, is_inbox_visible: bool, is_compose_button_visible: bool):
         self.url = url
-        self.service_param = service_param
-
-    def to_json(self):
-        return {
-            'url': self.url,
-            'service_param': self.service_param
-        }
-    
-    @classmethod
-    def from_json(cls, data: dict):
-        return cls(url=data['url'], service_param=data['service_param'])
-    
+        self.is_inbox_visible = is_inbox_visible
+        self.is_compose_button_visible = is_compose_button_visible
 
     def is_equal(self, other):
         if not isinstance(other, LoginResultObject):
             return False
-        return self.url == other.url and self.service_param == other.service_param
+        return (
+            self.url == other.url and
+            self.is_inbox_visible == other.is_inbox_visible and
+            self.is_compose_button_visible == other.is_compose_button_visible
+        )       
+
+    def to_json(self):
+        return {
+            'url': self.url,
+            'is_inbox_visible': self.serviceis_inbox_visible,
+            'is_compose_button_visible': self.is_compose_button_visible
+        }
+    
+    @classmethod
+    def from_json(cls, data: dict):
+        return cls(url=data['url'], is_inbox_visible=data['is_inbox_visible'], is_compose_button_visible=data['is_compose_button_visible'])
+    
+
+
+    
+
+    

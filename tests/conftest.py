@@ -2,23 +2,23 @@ import logging
 import pytest
 from playwright.sync_api import sync_playwright
 import os
+from utils.logger_config import logger  # Import the global logger
 
-TIMEOUT_MS = 10000  # Timeout in milliseconds
+USER_DATA_DIR = os.getenv("USER_DATA_DIR")
+CHROMIUM_EXECUTABLE_PATH = os.getenv("CHROMIUM_EXECUTABLE_PATH")
+FIREFOX_EXECUTABLE_PATH = os.getenv("FIREFOX_EXECUTABLE_PATH")
+BROWSER_CONTEXT_SET_DEFAULT_TIMEOUT = os.getenv("BROWSER_CONTEXT_SET_DEFAULT_TIMEOUT")
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="session", params=["chromium", "firefox"])
 def context(request):
     browser_type = request.param
-    user_data_dir = f"C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\PlaywrightUserData"
-    os.makedirs(user_data_dir, exist_ok=True)
+    os.makedirs(USER_DATA_DIR, exist_ok=True)
     
     with sync_playwright() as p:
         if browser_type == "chromium":
             browser = p.chromium
-            executable_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+            executable_path = CHROMIUM_EXECUTABLE_PATH
             args = [
                 "--profile-directory=Default",
                 "--disable-blink-features=AutomationControlled",
@@ -27,7 +27,7 @@ def context(request):
             user_agent = None
         elif browser_type == "firefox":
             browser = p.firefox
-            executable_path = "C:\\Users\\Admin\\AppData\\Local\\ms-playwright\\firefox-1463\\firefox\\firefox.exe"  # Use default Firefox executable
+            executable_path = FIREFOX_EXECUTABLE_PATH
             args = [
                 "--disable-blink-features=AutomationControlled",
                 "--disable-infobars",
@@ -36,7 +36,7 @@ def context(request):
             user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0"
 
         context = browser.launch_persistent_context(
-            user_data_dir=user_data_dir,
+            user_data_dir=USER_DATA_DIR,
             headless=False,
             executable_path=executable_path,
             args=args,
@@ -44,7 +44,7 @@ def context(request):
             viewport={"width": 1280, "height": 800}
         )
 
-        context.set_default_timeout(TIMEOUT_MS)  # Set default timeout in milliseconds
+        context.set_default_timeout(BROWSER_CONTEXT_SET_DEFAULT_TIMEOUT)  # Set default timeout in milliseconds
 
         yield context
         context.close()

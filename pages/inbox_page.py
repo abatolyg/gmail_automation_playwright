@@ -5,11 +5,11 @@ from pages.base_page import BasePage
 import logging
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from typing import Optional
-
-logger = logging.getLogger(__name__)
+from utils.logger_config import logger  # Import the global logger
 
 # Define the selector as a constant
 INBOX_MAIN_SELECTOR = 'div[role="main"]'
+COMPOSE_BUTTON_SELECTOR = 'div[role="button"][gh="cm"]'
 
 class InboxPage(BasePage):
 
@@ -17,23 +17,33 @@ class InboxPage(BasePage):
         
          # Check for successful login
         try:
-            self.page.wait_for_selector(INBOX_MAIN_SELECTOR)  # Adjust the selector and timeout as needed
-            logger.info("Login successful, inbox is visible")
-            return self.BuildLoginResultObject(self.page.url)
-        except Exception as e:
-            logger.error(f"Login failed: {e}")
-            return None
-        
-    def BuildLoginResultObject(self, url: str) -> Optional[LoginResultObject]:
+            # Check for the presence of an element that indicates a successful login (e.g., the inbox).
+            logger.info("Check for the presence of an element that indicates a successful login (e.g., the inbox).")
+            self.page.wait_for_selector(INBOX_MAIN_SELECTOR) 
+            logger.info("Inbox is visible")
+            is_inbox_visible = True
 
+            # Extra Check - Check for the compose button
+            logger.info("Extra Check - Check for the compose button.")            
+            self.page.wait_for_selector(COMPOSE_BUTTON_SELECTOR)
+            logger.info("Compose button is visible")
+            is_compose_button_visible = True            
+
+            logger.info(f"Login redirected to another URL to compare to expected - {self.page.url}.")            
+
+            return self.BuildLoginResultObject(self.page.url,is_inbox_visible,is_compose_button_visible)
+        except Exception as e:
+            self.logger.error(f"Login failed: {e}")
+            return None  
+
+    def BuildLoginResultObject(self, url: str, is_inbox_visible: bool, is_compose_button_visible: bool) -> Optional[LoginResultObject]:
+        """Build and return a LoginResultObject based on the current URL and visibility of inbox and compose button."""
         try:
             # Create and return LoginResultObject
-            return LoginResultObject(url, "")
-
+            return LoginResultObject(url, is_inbox_visible, is_compose_button_visible)
         except Exception as e:
             logger.error(f"An error occurred while building LoginResultObject: {e}")
-            return None                       
-            
+            return None
 
 
         

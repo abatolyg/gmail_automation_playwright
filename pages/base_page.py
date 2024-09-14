@@ -3,8 +3,8 @@ import logging
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
 from playwright.sync_api import Page
-
 from objects.login_result_object import LoginResultObject
+from utils.logger_config import logger  # Import the global logger
 
 class BasePage:
     def __init__(self, page: Page):
