@@ -3,7 +3,7 @@ It is mini project with the playwright, pytest and python
 Requirements
 
 1. Login to Gmail 
-2. Check login completed successfully (by url for now)
+2. Check login completed successfully (by url and several elements)
 
 See log file with successfull test 
 gmail_automation_playwright.log
