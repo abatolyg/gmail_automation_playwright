@@ -1,4 +1,5 @@
 # pages/login_page.py
+from enum import Enum
 import os
 from urllib.parse import parse_qs, urlparse
 from objects.login_result_object import LoginResultObject
@@ -9,6 +10,20 @@ from typing import Optional
 from utils.logger_config import logger
 from utils.pwd_manager import PasswordManager  # Import the global logger
 
+# Define the LoginState enum
+class LoginState(Enum):
+    WAIT_EMAIL = 0
+    WAIT_PASSWORD = 1
+    WAIT_INBOX = 2
+
+# Define the LoginState enum
+class LoginResultCode(Enum):
+    success = "success"
+    wrong_username = "wrong_username"
+    wrong_paswwrod = "wrong_password"    
+
+    def to_string(self):
+       return self.value
 
 # Define the selector as a constant
 LOGIN_INPUT_EMAIL = 'input[type="email"]'
@@ -34,30 +49,33 @@ class LoginPage(BasePage):
         try:
             # Fill in the email
             logger.info("Fill in email")
+            login_state = LoginState.WAIT_EMAIL
             self.page.wait_for_selector(LOGIN_INPUT_EMAIL, state='visible')
             self.page.fill(LOGIN_INPUT_EMAIL, test_data.username)
-            
+           
             # Click the Next button
             logger.info("Click Next button after email")
             self.page.click(BUTTON_NEXT)
             
             # Wait for the password field to be visible
             logger.info("Fill in password")
+            login_state = LoginState.WAIT_PASSWORD
             self.page.wait_for_selector(LOGIN_INPUT_PASWORD, state='visible')
             self.page.fill(LOGIN_INPUT_PASWORD, PasswordManager().decrypt_password(test_data.password))
 
             # Click the Next button
             logger.info("Click Next button after password")            
             self.page.click(BUTTON_NEXT)
+            login_state = LoginState.WAIT_INBOX
 
         except PlaywrightTimeoutError as e:
             logger.error(f"Timeout error during login: {e}")
-            raise
+            #raise
         except Exception as e:
             logger.error(f"An error occurred during login: {e}")
-            raise
+            #raise
 
-        return True
+        return login_state
 
     def click_sign_in(self):
         

@@ -1,0 +1,90 @@
+[
+  {
+      "testName": "Test1 - Successful login",
+      "username": "valid_user@gmail.com",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "success",
+          "url": "https://mail.google.com/mail/u/0/#inbox",
+          "is_inbox_visible": true,
+          "is_compose_button_visible": true
+      }
+  },
+  {
+      "testName": "Test2 - Invalid username",
+      "username": "invalid_user@gmail.com",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "invalid_username",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test3 - Invalid password",
+      "username": "valid_user@gmail.com",
+      "password": "invalid_password",
+      "expected_results": {
+          "error_code": "invalid_password",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test4 - Empty username",
+      "username": "",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "empty_username",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test5 - Empty password",
+      "username": "valid_user@gmail.com",
+      "password": "",
+      "expected_results": {
+          "error_code": "empty_password",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test6 - Timeout",
+      "username": "valid_user@gmail.com",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "timeout",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test7 - Account locked",
+      "username": "locked_user@gmail.com",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "account_locked",
+          "url": "",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  },
+  {
+      "testName": "Test8 - Two-Factor Authentication",
+      "username": "2fa_user@gmail.com",
+      "password": "valid_password",
+      "expected_results": {
+          "error_code": "2fa_required",
+          "url": "https://mail.google.com/mail/u/0/#2fa",
+          "is_inbox_visible": false,
+          "is_compose_button_visible": false
+      }
+  }
+]

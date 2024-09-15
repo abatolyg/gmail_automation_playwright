@@ -5,6 +5,7 @@ from pages.base_page import BasePage
 import logging
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from typing import Optional
+from pages.login_page import LoginResultCode
 from utils.logger_config import logger  # Import the global logger
 
 # Define the selector as a constant
@@ -40,7 +41,8 @@ class InboxPage(BasePage):
         """Build and return a LoginResultObject based on the current URL and visibility of inbox and compose button."""
         try:
             # Create and return LoginResultObject
-            return LoginResultObject(url, is_inbox_visible, is_compose_button_visible)
+            error_code = LoginResultCode.success.to_string()
+            return LoginResultObject(error_code, url, is_inbox_visible, is_compose_button_visible)
         except Exception as e:
             logger.error(f"An error occurred while building LoginResultObject: {e}")
             return None

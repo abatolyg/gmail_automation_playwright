@@ -49,6 +49,10 @@ class LoginObjectDataSource(DataSource):
      
     def get_data(self):
         return LoginObject.from_json(self.data)  
+    
+    def get_data_json(self):
+        return self.data 
+
 
 class LoginResultObjectDataSource(DataSource):
     def _initialize(self):
